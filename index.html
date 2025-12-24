@@ -1,0 +1,117 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signup & Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+        }
+        .box {
+            width: 320px;
+            background: white;
+            padding: 20px;
+            margin: 80px auto;
+            border-radius: 6px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+        }
+        button {
+            width: 100%;
+            padding: 8px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        p {
+            text-align: center;
+            cursor: pointer;
+            color: blue;
+        }
+        #msg {
+            text-align: center;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Signup Box -->
+<div class="box" id="signupBox">
+    <h2>Signup</h2>
+    <input type="text" id="su_username" placeholder="Username">
+    <input type="password" id="su_password" placeholder="Password">
+    <button onclick="signup()">Signup</button>
+    <p onclick="showLogin()">Already have an account? Login</p>
+</div>
+
+<!-- Login Box -->
+<div class="box" id="loginBox" style="display:none;">
+    <h2>Login</h2>
+    <input type="text" id="li_username" placeholder="Username">
+    <input type="password" id="li_password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <p onclick="showSignup()">Create new account</p>
+</div>
+
+<p id="msg"></p>
+
+<script>
+    function signup() {
+        var username = document.getElementById("su_username").value;
+        var password = document.getElementById("su_password").value;
+
+        if (username === "" || password === "") {
+            alert("Please fill all fields");
+            return;
+        }
+
+        localStorage.setItem("username", username);
+        localStorage.setItem("password", password);
+
+        alert("Signup Successful!");
+        showLogin();
+    }
+
+    function login() {
+        var username = document.getElementById("li_username").value;
+        var password = document.getElementById("li_password").value;
+
+        var storedUser = localStorage.getItem("username");
+        var storedPass = localStorage.getItem("password");
+
+        if (username === storedUser && password === storedPass) {
+            document.getElementById("msg").style.color = "green";
+            document.getElementById("msg").innerHTML = "Login Successful!";
+             localStorage.setItem("loggedIn", "true");
+             window.location.href = "dashboard.html";
+        } else {
+            document.getElementById("msg").style.color = "red";
+            document.getElementById("msg").innerHTML = "Invalid Username or Password";
+        }
+    }
+
+    function showLogin() {
+        document.getElementById("signupBox").style.display = "none";
+        document.getElementById("loginBox").style.display = "block";
+        document.getElementById("msg").innerHTML = "";
+    }
+
+    function showSignup() {
+        document.getElementById("signupBox").style.display = "block";
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("msg").innerHTML = "";
+    }
+</script>
+
+</body>
+</html>
